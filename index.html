@@ -17,6 +17,25 @@
     <body>
         <p>Hello Front Row Viewers!</p>
 
+          <!-- Include the SVG file -->
+  <object id="svgObject" type="image/svg+xml" data="https://jocular-jelly-8247a0.netlify.app/images/testsvg1.svg"></object>
+
+  <script>
+    // Get the parameter from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const newText = urlParams.get('text');
+
+    // Update the SVG text content
+    const svgObject = document.getElementById('svgObject');
+    svgObject.onload = function() {
+      const svgDocument = svgObject.contentDocument;
+      const textElement = svgDocument.getElementById('myText');
+      if (textElement) {
+        textElement.textContent = newText || 'Default Text';
+      }
+    };
+  </script>
+
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
