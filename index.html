@@ -31,15 +31,21 @@
     const textQueryParam = 'text';
 
     // Check if the URL has the 'text' parameter
-    if (getQueryParam(textQueryParam)) {
+    const newTextValue = getQueryParam(textQueryParam);
+    console.log('New text value:', newTextValue);
+
+    if (newTextValue) {
       fetch(svgUrl)
         .then(response => response.text())
         .then(svgText => {
           // Modify the SVG content
-          svgText = svgText.replace('{test}', getQueryParam(textQueryParam));
+          svgText = svgText.replace('{test}', newTextValue);
           
           // Display the modified SVG
           document.getElementById('svgContainer').innerHTML = svgText;
+        })
+        .catch(error => {
+          console.error('Error fetching SVG:', error);
         });
     }
   </script>
