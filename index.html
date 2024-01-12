@@ -17,23 +17,19 @@
     <body>
         <p>Hello Front Row Viewers!</p>
 
-          <!-- Include the SVG file -->
-  <object id="svgObject" type="image/svg+xml" data="https://jocular-jelly-8247a0.netlify.app/images/testsvg1.svg"></object>
+  <div id="svgContainer"></div>
 
   <script>
-    // Get the parameter from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const newText = urlParams.get('text');
-
-    // Update the SVG text content
-    const svgObject = document.getElementById('svgObject');
-    svgObject.onload = function() {
-      const svgDocument = svgObject.contentDocument;
-      const textElement = svgDocument.getElementById('myText');
-      if (textElement) {
-        textElement.textContent = newText || 'Default Text';
-      }
-    };
+    // JavaScript code to load and manipulate the SVG file
+    fetch('testsvg1.svg')
+      .then(response => response.text())
+      .then(svgText => {
+        // Modify the SVG content
+        svgText = svgText.replace('{test}', 'Changed Text!');
+        
+        // Display the modified SVG
+        document.getElementById('svgContainer').innerHTML = svgText;
+      });
   </script>
 
 
