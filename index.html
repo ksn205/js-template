@@ -20,16 +20,28 @@
   <div id="svgContainer"></div>
 
   <script>
+    // Function to get the value of a query parameter from the URL
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
     // JavaScript code to load and manipulate the SVG file
-    fetch('https://main--jocular-jelly-8247a0.netlify.app/images/testsvg1.svg')
-      .then(response => response.text())
-      .then(svgText => {
-        // Modify the SVG content
-        svgText = svgText.replace('{test}', 'Changed Text!');
-        
-        // Display the modified SVG
-        document.getElementById('svgContainer').innerHTML = svgText;
-      });
+    const svgUrl = 'https://main--jocular-jelly-8247a0.netlify.app/images/testsvg1.svg';
+    const textQueryParam = 'text';
+
+    // Check if the URL has the 'text' parameter
+    if (getQueryParam(textQueryParam)) {
+      fetch(svgUrl)
+        .then(response => response.text())
+        .then(svgText => {
+          // Modify the SVG content
+          svgText = svgText.replace('{test}', getQueryParam(textQueryParam));
+          
+          // Display the modified SVG
+          document.getElementById('svgContainer').innerHTML = svgText;
+        });
+    }
   </script>
 
 
