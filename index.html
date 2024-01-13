@@ -17,38 +17,50 @@
     <body>
         <p>Hello Front Row Viewers!</p>
 
-  <div id="svgContainer"></div>
+    <div id="svg-container"></div>
 
-  <script>
-    // Function to get the value of a query parameter from the URL
-    function getQueryParam(name) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(name);
-    }
-
-    // JavaScript code to load and manipulate the SVG file
-    const svgUrl = 'https://main--jocular-jelly-8247a0.netlify.app/images/testsvg1.svg';
-    const textQueryParam = 'text';
-
-    // Check if the URL has the 'text' parameter
-    const newTextValue = getQueryParam(textQueryParam);
-    console.log('New text value:', newTextValue);
-
-    if (newTextValue) {
-      fetch(svgUrl)
-        .then(response => response.text())
-        .then(svgText => {
-          // Modify the SVG content
-          svgText = svgText.replace('{test}', newTextValue);
-          
-          // Display the modified SVG
-          document.getElementById('svgContainer').innerHTML = svgText;
-        })
-        .catch(error => {
-          console.error('Error fetching SVG:', error);
-        });
-    }
-  </script>
+    <script>
+      // Function to load external SVG file and update text content
+      function loadSVGWithText(text) {
+        // Create a new XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+    
+        // Specify the path to your SVG file
+        var svgPath = 'images/testsvg1.svg';
+    
+        // Make a GET request to the SVG file
+        xhr.open('GET', svgPath, true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            // Find the text element in the SVG content
+            var parser = new DOMParser();
+            var svgDoc = parser.parseFromString(xhr.responseText, "image/svg+xml");
+            var svgText = svgDoc.getElementById('myText');
+    
+            // Update the text content
+            svgText.textContent = text;
+    
+            // Append the modified SVG content to the container
+            document.getElementById('svg-container').appendChild(svgDoc.documentElement);
+          }
+        };
+    
+        // Send the request
+        xhr.send();
+      }
+    
+      // Get the value of the 'text' parameter from the URL
+      var urlParams = new URLSearchParams(window.location.search);
+      var newText = urlParams.get('text');
+    
+      // Load the SVG with the specified text
+      if (newText !== null) {
+        loadSVGWithText(newText);
+      } else {
+        // Default behavior without a 'text' parameter
+        loadSVGWithText("Your Text Here");
+      }
+    </script>
 
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
